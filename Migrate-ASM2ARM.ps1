@@ -93,6 +93,19 @@ foreach ($st in $CuentasDeAlmacenamiento) {
 
 }
 
+# Si aparece algo de lo anteiror, hay que eliminarlos:
+
+#Remove-AzureVMImage -ImageName 'yourImageName'
+
+#Remove-AzureDisk -DiskName 'yourDiskName'
+
+
+#Remove-AzureDisk -DiskName 'OCS2007EDGE-OCS2007EDGE-0-201305150208230081'
+#Remove-AzureDisk -DiskName 'msclient-msclient-0-201308140208160345'
+#Remove-AzureDisk -DiskName 'tmg-tmg-0-201305150222470950'
+#Remove-AzureDisk -DiskName 'iisvm1-iisvm1-0-201502182109550265'
+
+
 
 #1er paso migración storage
 
@@ -109,3 +122,7 @@ foreach ($st in $CuentasDeAlmacenamiento) {
     Move-AzureStorageAccount -Commit -StorageAccountName $st.StorageAccountName
 
 }
+
+#    Move-AzureStorageAccount -Commit -StorageAccountName paratztorage1 
+#    Move-AzureStorageAccount -Commit -StorageAccountName portalvhdsn90jys9fwsnq9  
+    
