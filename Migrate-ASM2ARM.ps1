@@ -31,7 +31,7 @@ Get-AzureRmVMUsage -Location "East US"
 # Validar Movimiento:
 
 $vnetName = "ImageMig"
-$MensajeDeError = (Move-AzureVirtualNetwork -Validate -VirtualNetworkName $vnetName)
+$MensajeDeError = (Move-AzureVirtualNetwork -Validate -VirtualNetworkName $vnetName -Verbose)
 $MensajeDeError.ValidationMessages | clip
 
 $MensajeDeError.ValidationMessages | Export-Csv -Path "C:\temp2\ValidationMsg3.csv"
@@ -39,11 +39,11 @@ $MensajeDeError.ValidationMessages | Export-Csv -Path "C:\temp2\ValidationMsg3.c
 
 #Preparar Movimiento
 
-Move-AzureVirtualNetwork -Prepare -VirtualNetworkName $vnetName
+Move-AzureVirtualNetwork -Prepare -VirtualNetworkName $vnetName -Verbose
 
 #Commit del movimiento
 
-Move-AzureVirtualNetwork -Commit -VirtualNetworkName $vnetName
+Move-AzureVirtualNetwork -Commit -VirtualNetworkName $vnetName -Verbose
 
 # Migración de Cuentas de Storage:
 #Listar Cuentas de Storage
@@ -109,7 +109,7 @@ foreach ($st in $CuentasDeAlmacenamiento) {
 
 foreach ($st in $CuentasDeAlmacenamiento) {
 
-    Move-AzureStorageAccount -Prepare -StorageAccountName $st.StorageAccountName
+    Move-AzureStorageAccount -Prepare -StorageAccountName $st.StorageAccountName -Verbose
 
 }
 
@@ -117,7 +117,7 @@ foreach ($st in $CuentasDeAlmacenamiento) {
 
 foreach ($st in $CuentasDeAlmacenamiento) {
 
-    Move-AzureStorageAccount -Commit -StorageAccountName $st.StorageAccountName
+    Move-AzureStorageAccount -Commit -StorageAccountName $st.StorageAccountName -Verbose
 
 }
 
