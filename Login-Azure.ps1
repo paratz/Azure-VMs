@@ -5,8 +5,6 @@
 
 Login-AzureRmAccount
 
-Select-AzureRmSubscription -SubscriptionId cfcb919c-c5a1-4bee-8f4a-5ccaeccc0787
-
 #Iniciar Sesión en Portal Clásico
 Add-AzureAccount
 
@@ -14,4 +12,5 @@ Add-AzureAccount
 Get-AzureSubscription
 
 #Seleccionar la subscripción donde se trabajará (reemplazar el subscriptionID obtenido del comando anterior)
-Select-AzureSubscription -SubscriptionId cfxxxxxxxxc-c5a1-4bee-8f4a-5ccaeccc0787
+Select-AzureSubscription -SubscriptionId cfcb919c-c5a1-4bee-8f4a-5ccaeccc0787
+Select-AzureRmSubscription -SubscriptionId cfcb919c-c5a1-4bee-8f4a-5ccaeccc0787

@@ -26,11 +26,11 @@ Get-AzureRmResourceProvider -ProviderNamespace Microsoft.ClassicInfrastructureMi
 
 #Verificar que hay suficientes cores en la región
 
-Get-AzureRmVMUsage -Location "West US"
+Get-AzureRmVMUsage -Location "East US"
 
 # Validar Movimiento:
 
-$vnetName = "InternalVNET"
+$vnetName = "ImageMig"
 $MensajeDeError = (Move-AzureVirtualNetwork -Validate -VirtualNetworkName $vnetName)
 $MensajeDeError.ValidationMessages | clip
 
@@ -58,8 +58,6 @@ Get-AzureStorageAccount | Select-Object StorageAccountName
 #portalvhdsn90jys9fwsnq9 
 #syscenfakstorage        
 #wsazureparatzstorag
-
-
 
 #Prerequisitos
 
