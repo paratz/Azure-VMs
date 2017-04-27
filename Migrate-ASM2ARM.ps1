@@ -1,20 +1,17 @@
-﻿#SubscriptionName                 SubscriptionId                      
-#----------------                 --------------                      
-#Visual Studio Enterprise         xxxxxx-f464-45d8-adeb-c7a0e8c678f6
-#Visual Studio Ultimate with MSDN xxxxxx-c5a1-4bee-8f4a-5ccaeccc0787
+﻿#Definir nombre de vnet a migrar y datacenter
+$vnetName = "ImageMig"
+$Location = "Central US"
 
-Login-AzureRmAccount
-
-Select-AzureRmSubscription -SubscriptionId xxxxx-c5a1-4bee-8f4a-5ccaeccc0787
-
-#Iniciar Sesión en Portal Clásico
+#Iniciar Sesión en Portal Clásico y ARM
 Add-AzureAccount
+Login-AzureRmAccount
 
 #Listar todas las subscripciones existentes
 Get-AzureSubscription
 
 #Seleccionar la subscripción donde se trabajará (reemplazar el subscriptionID obtenido del comando anterior)
 Select-AzureSubscription -SubscriptionId xxxxxx-c5a1-4bee-8f4a-5ccaeccc0787
+Select-AzureRmSubscription -SubscriptionId xxxxx-c5a1-4bee-8f4a-5ccaeccc0787
 
 #Registrar subscripción, y esperar 5 minutos
 
@@ -26,14 +23,16 @@ Get-AzureRmResourceProvider -ProviderNamespace Microsoft.ClassicInfrastructureMi
 
 #Verificar que hay suficientes cores en la región
 
-Get-AzureRmVMUsage -Location "East US"
+Get-AzureRmVMUsage -Location $Location
 
 # Validar Movimiento:
 
-$vnetName = "ImageMig"
 $MensajeDeError = (Move-AzureVirtualNetwork -Validate -VirtualNetworkName $vnetName -Verbose)
+
+#Con este comando, la validación se copia en el portapapeles
 $MensajeDeError.ValidationMessages | clip
 
+#Con este comando, la validación se exporta a un archivo .csv
 $MensajeDeError.ValidationMessages | Export-Csv -Path "C:\temp2\ValidationMsg3.csv"
 
 
@@ -45,21 +44,16 @@ Move-AzureVirtualNetwork -Prepare -VirtualNetworkName $vnetName -Verbose
 
 Move-AzureVirtualNetwork -Commit -VirtualNetworkName $vnetName -Verbose
 
-# Migración de Cuentas de Storage:
+
+##################################
+# Migración de Cuentas de Storage#
+##################################
+
+
 #Listar Cuentas de Storage
 Get-AzureStorageAccount | Select-Object StorageAccountName
 
-#StorageAccountName      
-#------------------      
-#04portalvhdsb88lwjkqv8vx
-#j9portalvhdsk0dkmmyfrv2n
-#paratztorage1           
-#portalvhds3qj925pl3zhwm 
-#portalvhdsn90jys9fwsnq9 
-#syscenfakstorage        
-#wsazureparatzstorag
-
-#Prerequisitos
+#Estos comandos ejecutan los queries para encontrar VHD desconectados o imagenes de VMs:
 
 $CuentasDeAlmacenamiento = Get-AzureStorageAccount
 
@@ -91,21 +85,10 @@ foreach ($st in $CuentasDeAlmacenamiento) {
 
 }
 
-# Si aparece algo de lo anteiror, hay que eliminarlos:
-
-#Remove-AzureVMImage -ImageName 'yourImageName'
-
+# Si aparece algo de lo anteiror, hay que eliminarlos, caso contrario fallará la migración de la cuenta de almacenamiento:
 #Remove-AzureDisk -DiskName 'yourDiskName'
 
-
-#Remove-AzureDisk -DiskName 'OCS2007EDGE-OCS2007EDGE-0-201305150208230081'
-#Remove-AzureDisk -DiskName 'msclient-msclient-0-201308140208160345'
-#Remove-AzureDisk -DiskName 'tmg-tmg-0-201305150222470950'
-#Remove-AzureDisk -DiskName 'iisvm1-iisvm1-0-201502182109550265'
-
-
-
-#1er paso migración storage
+#1er paso migración storage para todas las cuentas de almacenamiento:
 
 foreach ($st in $CuentasDeAlmacenamiento) {
 
@@ -113,7 +96,7 @@ foreach ($st in $CuentasDeAlmacenamiento) {
 
 }
 
-#2do paso
+#2do paso migración storage para todas las cuentas de almacenamiento:
 
 foreach ($st in $CuentasDeAlmacenamiento) {
 
@@ -121,6 +104,6 @@ foreach ($st in $CuentasDeAlmacenamiento) {
 
 }
 
+
+#Si en la operación anterior, algo falló, puede volver a ejecutarse utilizando el mismo comando para una cuenta de almacenamiento en particular, por ejemplo:
 #    Move-AzureStorageAccount -Commit -StorageAccountName paratztorage1 
-#    Move-AzureStorageAccount -Commit -StorageAccountName portalvhdsn90jys9fwsnq9  
-    
