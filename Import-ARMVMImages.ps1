@@ -1,4 +1,12 @@
-﻿cls
+﻿#Iniciar Sesión en Portal Clásico y ARM
+Login-AzureRmAccount
+
+#Listar todas las subscripciones existentes
+Get-AzureRMSubscription
+
+#Seleccionar la subscripción donde se trabajará (reemplazar el subscriptionID obtenido del comando anterior)
+Select-AzureRmSubscription -SubscriptionId xxxxx-c5a1-4bee-8f4a-5ccaeccc0787
+
 #https://docs.microsoft.com/en-us/powershell/module/azurerm.compute/New-AzureRmImage?view=azurermps-3.7.0
 #El siguiente script, importa todas las VM Images exportadas por el script Migrate-ASM2ARM.ps1 en ARM.
 #Como parte de la migración de una Storage Account de ASM a ARM, las VM Images no se crean automaticamente en el portal ARM
@@ -6,6 +14,8 @@
 
 #Prerequisito: Haber ejecutado Export-ASMVMImages.ps1 en ASM e iniciar sesión en ARM previo a ejecutar este script.
 
+#Definir Working Directory (donde se exportaron los archivos de ASM)
+$WorkingDirectory = "C:\Temp2\"
 
 #Definir ubicación de las imagenes
 $Location = "West US"
@@ -14,7 +24,8 @@ $Location = "West US"
 $ResourceGroup = "VMImages"
 
 #Importar todas las Imagenes Existentes del Archivo UserVMImages.csv
-$Imagenes = Import-Csv -path C:\temp2\UserVMImages.csv
+$ImgCSV = $WorkingDirectory + "UserVMImages.csv"
+$Imagenes = Import-Csv -path $ImgCSV
 
 #Recorrer cada imagen
 foreach ($I in $Imagenes) {
@@ -22,7 +33,7 @@ foreach ($I in $Imagenes) {
         $imageConfig = New-AzureRmImageConfig -Location $Location;
 
         #Creo una variable que contiene el nombre del archivo con la configuración del disco de OS
-        $OSFile = "C:\Temp2\" + $I.ImageName + "_OS.csv"
+        $OSFile = $WorkingDirectory + $I.ImageName + "_OS.csv"
         #Importo dicho archivo
         $OSDisks = Import-Csv -Path $OSFile
         #Recorro el archivo (en todos los casos hay un solo disco de OS)
@@ -33,7 +44,7 @@ foreach ($I in $Imagenes) {
         }
 
         #Creo la variable que contiene el nombre del archivo con la configuración de discos de datos
-        $DataFile = "C:\Temp2\" + $I.ImageName + "_OS.csv"
+        $DataFile = $WorkingDirectory + $I.ImageName + "_OS.csv"
         #Importo dicho archivo
         $DataDisks = Import-Csv -Path $DataFile
         
@@ -53,8 +64,6 @@ foreach ($I in $Imagenes) {
         }        
         
         #Una vez creada la configuración, creo la imagen
-        New-AzureRmImage -Image $imageConfig -ImageName $I.ImageName -ResourceGroupName $ResourceGroup
-        #$archivooutput = "C:\temp2\output\" + $ImageConfig.ImageName + ".txt"
-        #$ImageConfig | Out-File -FilePath $archivooutput
+        New-AzureRmImage -Image $imageConfig -ImageName $I.ImageName -ResourceGroupName $ResourceGroup -Verbose
 
 }
