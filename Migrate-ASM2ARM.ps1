@@ -1,6 +1,6 @@
 ﻿#Definir nombre de vnet a migrar y datacenter
 $vnetName = "ImageMig"
-$Location = "Central US"
+$Location = "West US"
 
 #Iniciar Sesión en Portal Clásico y ARM
 Add-AzureAccount
