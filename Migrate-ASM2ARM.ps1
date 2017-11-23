@@ -1,5 +1,5 @@
 ﻿#Definir nombre de vnet a migrar y datacenter
-$vnetName = "ImageMig"
+$vnetName = "Prueba Migración"
 $Location = "West US"
 
 #Iniciar Sesión en Portal Clásico y ARM
@@ -39,6 +39,9 @@ $MensajeDeError.ValidationMessages | Export-Csv -Path "C:\temp2\ValidationMsg3.c
 #Preparar Movimiento
 
 Move-AzureVirtualNetwork -Prepare -VirtualNetworkName $vnetName -Verbose
+
+Move-AzureVirtualNetwork -Abort -VirtualNetworkName $vnetName -Verbose
+
 
 #Commit del movimiento
 
