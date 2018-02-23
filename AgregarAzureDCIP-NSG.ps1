@@ -1,5 +1,6 @@
 ﻿$NSGName = "fabwap1-nsg"
-$OutboundRuleName = "Azure_EastUS2"
+$OutboundRuleName = "Azure_EastUS666"
+$OutboundRulePriority = 662
 $RGName = "fabrikam.com.ar"
 $SubscriptionID = "cfcb919c-c5a1-4bee-8f4a-5ccaeccc0787"
 $region = "useast"
@@ -44,7 +45,7 @@ $nsg = Get-AzureRmNetworkSecurityGroup -ResourceGroupName $RGName -Name $NSGName
     -Access Allow `
     -Protocol Tcp `
     -Direction Outbound `
-    -Priority 666 `
+    -Priority $OutboundRulePriority `
     -SourceAddressPrefix VirtualNetwork `
     -SourcePortRange * `
     -DestinationAddressPrefix $ListaIPs `
