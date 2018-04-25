@@ -5,8 +5,8 @@
     @{RuleName="Azure_DataCenter_USwest2";Location="uswest2"},
     @{RuleName="Azure_DataCenter_USwest";Location="uswest"},
     @{RuleName="Azure_DataCenter_USsouth";Location="ussouth"},
-    @{RuleName="Azure_DataCenter_EastUS";Location="eastus"},
-    @{RuleName="Azure_DataCenter_EastUS2";Location="eastus2"}) | % { New-Object object | Add-Member -NotePropertyMembers $_ -PassThru }
+    @{RuleName="Azure_DataCenter_EastUS";Location="useast"},
+    @{RuleName="Azure_DataCenter_EastUS2";Location="useast2"}) | % { New-Object object | Add-Member -NotePropertyMembers $_ -PassThru }
 
 $SubscriptionID = "cfcb919c-c5a1-4bee-8f4a-5ccaeccc0787"
 
