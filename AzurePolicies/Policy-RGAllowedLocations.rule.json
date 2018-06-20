@@ -1,0 +1,17 @@
+{
+    "if": {
+      "allOf": [
+        {
+          "field": "location",
+          "notIn": "[parameters('listOfAllowedLocations')]"
+        },
+        {
+          "field": "type",
+          "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+        }
+      ]
+    },
+    "then": {
+      "effect": "deny"
+    }
+  }
