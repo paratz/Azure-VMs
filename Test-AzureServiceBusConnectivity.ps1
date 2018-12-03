@@ -4,7 +4,7 @@ $ports = 443, 5671, 5672, 9350,	9351, 9352, 9353, 9354
 foreach ($url in $urls ) {
     foreach ($port in $ports) {
 
-    Test-NetConnection -ComputerName $url -Port $port | Export-Csv -Path Results.csv -Append
+    Test-NetConnection -ComputerName $url -Port $port | Export-Csv -Path Results.csv -Append -NoTypeInformation
     
     }
 }
