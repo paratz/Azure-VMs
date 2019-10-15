@@ -1,11 +1,11 @@
-﻿Configuration SoftwareDeBasev8
+﻿Configuration SoftwareDeBasev10
 {
 
     Import-DscResource -ModuleName xDSCDomainjoin
     Import-DscResource -ModuleName PSDesiredStateConfiguration    
     $Cred = Get-AutomationPSCredential 'DomainCredentials'
     
-Node $AllNodes.NodeName
+Node localhost
 {
         xDSCDomainjoin JoinDomain
             {

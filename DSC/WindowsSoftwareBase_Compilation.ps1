@@ -3,12 +3,14 @@
         @{
             NodeName = '*'
             PSDscAllowPlainTextPassword = $True
+        },
+        @{
+            NodeName = 'localhost'
         }
     )
 }
 
-
-<# $ConfigData = @{
+<#$ConfigData = @{
     AllNodes = @(
         @{
             NodeName = '*'
@@ -29,7 +31,7 @@
 $compilationJob = Start-AzAutomationDscCompilationJob `
 -ResourceGroupName 'management-prod-rg' `
 -AutomationAccountName 'aa-prod-management' `
--ConfigurationName 'SoftwareDeBasev7' `
+-ConfigurationName 'SoftwareDeBasev9' `
 -ConfigurationData $ConfigData
 
 #Monitorear Finalización del Job de Compilación
@@ -46,5 +48,4 @@ $compilationJob
 # https://buildingmydreamit.wordpress.com/2015/12/07/setup-phase-compiling-the-dsc-configuration/
 # https://devblogs.microsoft.com/powershell/powershell-dsc-faq-sorting-out-certificates/
 # https://blogs.technet.microsoft.com/ashleymcglone/2015/12/18/using-credentials-with-psdscallowplaintextpassword-and-psdscallowdomainuser-in-powershell-dsc-configuration-data/
-
 # 
