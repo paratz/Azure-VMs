@@ -31,7 +31,7 @@
 $compilationJob = Start-AzAutomationDscCompilationJob `
 -ResourceGroupName 'management-prod-rg' `
 -AutomationAccountName 'aa-prod-management' `
--ConfigurationName 'SoftwareDeBasev9' `
+-ConfigurationName 'SoftwareDeBasev10' `
 -ConfigurationData $ConfigData
 
 #Monitorear Finalización del Job de Compilación
