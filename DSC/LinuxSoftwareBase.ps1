@@ -7,7 +7,7 @@
     {
         nxPackage epel-release 
         {
-            Name = "epel-release"
+            Name = "epel-release-latest-7.noarch.rpm"
             Ensure = "Present"
             PackageManager = "Yum"
         }
