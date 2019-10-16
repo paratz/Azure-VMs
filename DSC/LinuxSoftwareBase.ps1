@@ -1,17 +1,24 @@
 ﻿Configuration LinuxSoftwareBasev1
 {
 
-Import-DSCResource -Module nx
+    Import-DSCResource -Module nx
 
-Node localhost
-{
-    nxPackage nrpe
+    Node localhost
     {
-        Name = "nrpe"
-        Ensure = "Present"
-        PackageManager = "Yum"
-    }
+        nxPackage epel-release 
+        {
+            Name = "epel-release"
+            Ensure = "Present"
+            PackageManager = "Yum"
+        }
+    
+
+        nxPackage nrpe
+        {
+            Name = "nrpe"
+            Ensure = "Present"
+            PackageManager = "Yum"
+        }
+
 }
-
-
 }
