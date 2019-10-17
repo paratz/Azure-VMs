@@ -21,6 +21,13 @@
             DependsOn = '[nxPackage]epel-release'
         }
 
+        nxFileLine DoNotRequireTTY
+        {
+            FilePath = "/etc/nagios/nrpe.cfg"
+            ContainsLine = 'allowed_hosts=127.0.0.1,161.131.194.38,::1'
+            DoesNotContainPattern = "allowed_hosts=127.0.0.1,::1"
+        }
+
     }
 }
 
