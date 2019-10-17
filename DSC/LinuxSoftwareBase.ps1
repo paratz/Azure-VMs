@@ -23,3 +23,6 @@
 
     }
 }
+
+#config de ejemplo https://azurestack.blog/2016/02/adding-and-using-the-dsc-for-linux-vm-extension-to-azure-stack-tp1/
+#como instalar epel https://www.shellhacks.com/epel-repo-centos-7-6-install/
