@@ -25,7 +25,7 @@
         {
             FilePath = "/etc/nagios/nrpe.cfg"
             ContainsLine = 'allowed_hosts=127.0.0.1,192.168.1.1,::1'
-            DoesNotContainPattern = "allowed_hosts=127.0.0.1,::1"
+            DoesNotContainPattern = 'allowed_hosts=127.0.0.1,::1'
             DependsOn = '[nxPackage]nrpe'
         }
 
