@@ -15,7 +15,8 @@ $ImmutableID = $Null
 
 # Obtener Immutable ID en base a cuenta AD Onprem
 
-$ImmutableID = Get-ADUser -Identity $UserPrincipalName -Properties ObjectGUID | select ObjectGUID | foreach {[system.convert]::ToBase64String(([GUID]($_.ObjectGUID)).tobytearray())}
+$ImmutableID = Get-ADUser -Filter "userprincipalname -eq '$UserPrincipalName'" -Properties ObjectGUID | select ObjectGUID | foreach {[system.convert]::ToBase64String(([GUID]($_.ObjectGUID)).tobytearray())}
+
 write-host "El ImmutableID del Usuario $UserPrincipalName es $ImmutableID"
 
 # Estampar en usuario Cloud el ImmutableID
