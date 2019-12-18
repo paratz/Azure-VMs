@@ -24,9 +24,11 @@
 
         nxFileContent ConfiguraAllowedHosts
         {
+            TestCommand = "pass"
+            Name = "ConfigureAllowedHosts"
             FileName = "/etc/nagios/nrpe.cfg"
             FileContent = 'allowed_hosts=127.0.0.1,192.168.1.1,::1'
-            EditRegex = '"allowed_hosts=127.0.0.1,::1"'
+            EditRegex = 'allowed_hosts=127.0.0.1,::1'
             DependsOn = '[nxPackage]nrpe'
         }
 
