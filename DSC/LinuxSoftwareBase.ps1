@@ -2,6 +2,7 @@
 {
 
     Import-DSCResource -Module nx
+    Import-DscResource -Module LinuxResourcesDSC
 
     Node localhost
     {
@@ -21,11 +22,11 @@
             DependsOn = '[nxPackage]epel-release'
         }
 
-        nxFileLine ConfiguraAllowedHosts
+        nxFileContent ConfiguraAllowedHosts
         {
-            FilePath = "/etc/nagios/nrpe.cfg"
-            ContainsLine = 'allowed_hosts=127.0.0.1,192.168.1.1,::1'
-            DoesNotContainPattern = 'allowed_hosts=127.0.0.1,::1'
+            FileName = "/etc/nagios/nrpe.cfg"
+            FileContent = 'allowed_hosts=127.0.0.1,192.168.1.1,::1'
+            EditRegex = '"allowed_hosts=127.0.0.1,::1"'
             DependsOn = '[nxPackage]nrpe'
         }
 
