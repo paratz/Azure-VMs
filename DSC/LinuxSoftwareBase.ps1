@@ -21,16 +21,31 @@
             PackageManager = "Yum"
             DependsOn = '[nxPackage]epel-release'
         }
+        
+        nxScript ConfiguraAllowedHosts {
 
-        nxFileContent ConfiguraAllowedHosts
-        {
-            TestCommand = "pass"
-            Name = "ConfigureAllowedHosts"
-            FileName = "/etc/nagios/nrpe.cfg"
-            FileContent = 'allowed_hosts=127.0.0.1,192.168.1.1,::1'
-            EditRegex = 'allowed_hosts=127.0.0.1,::1'
-            DependsOn = '[nxPackage]nrpe'
-        }
+                GetScript = @"
+            #!/bin/bash
+            grep -c "allowed_hosts=127.0.0.1,::1" /etc/nagios/nrpe.cfg
+            "@
+
+                SetScript = @"
+            #!/bin/bash
+            sed -i 's/allowed_hosts=127.0.0.1,::1/allowed_hosts=127.0.0.1,192.168.1.1,::1/' /etc/nagios/nrpe.cfg
+            "@
+
+                TestScript = @'
+            #!/bin/bash
+            linecount=`grep -c "allowed_hosts=127.0.0.1,::1" /etc/nagios/nrpe.cfg`
+            if [ $linecount -eq 1 ]
+            then
+                exit 1
+            else
+                exit 0
+            fi
+            '@
+                }
+        
 
     }
 }
